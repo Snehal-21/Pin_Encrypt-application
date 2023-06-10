@@ -1,0 +1,32 @@
+{
+  "name": "Pin-Encrypt-application",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Snehal-21/Pin_Encrypt-application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Snehal-21/Pin_Encrypt-application/issues"
+  },
+  "homepage": "https://github.com/Snehal-21/Pin_Encrypt-application#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^7.2.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22"
+  },
+  "type": "module",
+  "devDependencies": {
+    "encryptjs": "^2.0.0"
+  }
+}
