@@ -3,10 +3,6 @@ import encrypt from "encryptjs";
 export const register=async(req,res)=>{
     try{
         const { name,email,password,confirmpassword,pin}=req.body;
-        if(!name) return res.send("Name is required!");
-        if(!email) return res.send("Email is required!");
-        if(!password) return res.send("Password is required!");
-        if(!pin) return res.send("Pin is required!");
         if(password<=3 && confirmpassword<=3) return res.send("Password shoild be more than 8 digits!")
         if(password!=confirmpassword) return res.send("Password and COnfirmPassword is not matched!")
         const user=await User.find({email}).exec()
@@ -16,8 +12,8 @@ export const register=async(req,res)=>{
         let secretKey_Pass='modify';
         let encryc_Pass=encrypt.encrypt(password,secretKey_Pass,256);
        let secretkey_pin="modifypin";
-       
-        let encryc_pin=encrypt.encrypt(pin,secretkey_pin,256);
+       const num_Pin=pin.toString();
+        let encryc_pin=encrypt.encrypt(num_Pin,secretkey_pin,256);
         const register=new User({
             name,
             email,
@@ -36,12 +32,30 @@ export const register=async(req,res)=>{
 export const login=async(req,res)=>{
     try{
         const { email,password,pin}=req.body;
-        if(!email) return res.send("Email is required!");
-        if(!password) return res.send("Password is required!");
-        if(!pin) return res.send("Pin is required!");
-
+        const response=await User.find({}).exec();
+        if(!response.length) {
+             res.send("User not found!");
+        }else{
+            return res.send("Login Successful!");
+        }
     }
     catch(error){
+        return res.send(error);
+    }
+}
+
+export const updateUser=async(req,res)=>{
+    try{
+        const{ name,email,password}=req.body;
+        const response=await User.find({email}).exec();
+        if(!response.length) return res.send("User not Found");
+        let secretkey="modify";
+        const encrypt_update=encrypt.encrypt(password,secretkey,256);
+        const update=await User.findOneAndUpdate({email},{name,password:encrypt_update}).exec();
+        await update.save();
+        return res.send("Updated")
+
+    }catch(error){
         return res.send(error);
     }
 }
