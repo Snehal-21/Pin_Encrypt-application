@@ -49,8 +49,10 @@ export const updateUser=async(req,res)=>{
         const{ name,email,password}=req.body;
         const response=await User.find({email}).exec();
         if(!response.length) return res.send("User not Found");
+
         let secretkey="modify";
         const encrypt_update=encrypt.encrypt(password,secretkey,256);
+        
         const update=await User.findOneAndUpdate({email},{name,password:encrypt_update}).exec();
         await update.save();
         return res.send("Updated")
